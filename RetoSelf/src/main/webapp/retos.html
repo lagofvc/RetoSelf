@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+	<title>Lago : RetoSelf</title>
+	
+	<link rel="stylesheet" type="text/css" href="css/main.css?version=2">
+	
+	<!-- ADD REST SUPPORT VIA google APIs -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	
+	<!-- ADD MY OWN JQuery to call the REST webservice and getback json, html, text, etc..-->  
+    <script src="js/getCategories.js?version=2"></script>
+        
+</head>
+<body>
+	<br/>
+	<element><center>
+	<table>
+		<tr>
+			<td>
+				<div class="transbox" valign="top">
+				<center>
+				<h1>Retos</h1>
+				<div id="resultDiv"></div>
+					<table>
+						<tfoot>
+							<tr>
+								<td/>
+								<td align="center">
+									<form action="alert('yo retos!');">
+									<button>New Challenge</button>
+									</form>
+								</td>
+								<td/>
+							</tr>
+						</tfoot>
+						<tbody class="RetosResult">
+						</tbody>
+					</table>
+					</center>
+				</div>
+			</td>
+		</tr>
+	</table>
+	</center></element>
+</body>
+</html>
