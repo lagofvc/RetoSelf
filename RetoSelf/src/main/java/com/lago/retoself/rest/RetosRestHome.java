@@ -1,7 +1,6 @@
 package com.lago.retoself.rest;
 
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -12,15 +11,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.bson.types.ObjectId;
-
 import com.lago.retoself.domain.Category;
 import com.lago.retoself.utils.MongoUtils;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-import com.mongodb.WriteResult;
 
 @Path("/retosresthome")
 public class RetosRestHome {
