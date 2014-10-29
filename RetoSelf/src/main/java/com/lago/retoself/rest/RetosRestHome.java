@@ -2,6 +2,7 @@ package com.lago.retoself.rest;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -35,8 +36,9 @@ public class RetosRestHome {
 	@GET
 	@Path("/getcategories")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<Category> getCategories(){
-		return MongoUtils.getAllCategories();
+	public List<Category> getCategories(){
+		List<Category> cats = MongoUtils.getAllCategories();
+		return cats;
 	}
 	
 	@POST

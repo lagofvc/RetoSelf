@@ -8,6 +8,7 @@ $(window).load(function() {
 	        success: function(categories) {
 	        	for(var i = 0; i < categories.length; i++) {
  					var cat = categories[i];
+ 					
     				$('.categoriesResult').append("<tr>");
 					$('.categoriesResult').append("<td align='center'>" + cat.name + "</td>");
 					$('.categoriesResult').append("<td align='center'><a href='viewcategory.html?id=" + cat.id + "'><canvas id=" + cat.id + " width='200' height='100'></canvas></a></td>");

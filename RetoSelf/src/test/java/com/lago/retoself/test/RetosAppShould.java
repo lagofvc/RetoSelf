@@ -3,7 +3,7 @@ package com.lago.retoself.test;
 import static org.junit.Assert.*;
 
 import java.net.UnknownHostException;
-import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -17,21 +17,21 @@ public class RetosAppShould {
 	
 	private RetosRestHome rest;
 	private static final String VERY_UNIQUE_NAME = "542a391fef86a307f2a13229";
-	private static int COUNT_BEFORE = 0;
-	private static int COUNT_AFTER = 0;
+	private static long COUNT_BEFORE = 0;
+	private static long COUNT_AFTER = 0;
 	
 	@Before
 	public void setup() throws UnknownHostException{
 		rest = new RetosRestHome(); // this sets the connection to MongoDB
-		COUNT_BEFORE = MongoUtils.getCollection(Category.TABLENAME).find().size();
+		COUNT_BEFORE = MongoUtils.getCollectionCount(Category.TABLENAME);
 		
 	}
 	
 	@After
 	public void tearDown() throws UnknownHostException{
-		COUNT_AFTER = MongoUtils.getCollection(Category.TABLENAME).find().size();
+		COUNT_AFTER = MongoUtils.getCollectionCount(Category.TABLENAME);
 		if(COUNT_BEFORE < COUNT_AFTER){
-			ArrayList<Category> allCats = rest.getCategories();
+			List<Category> allCats = rest.getCategories();
 			for(Category cat : allCats){
 				if(cat.getName().equals(VERY_UNIQUE_NAME)){
 					rest.delete(cat);
@@ -43,8 +43,12 @@ public class RetosAppShould {
 	
 	@Test
 	public void allowDeleteOnCategory_test(){
-		allowInsertToCategory_test(); //insert dummy category via insertTest
-		ArrayList<Category> allCats = rest.getCategories();
+		
+		Category cat1 = new Category("blue");
+		cat1.setName(VERY_UNIQUE_NAME);
+		rest.postCategory(cat1);
+		
+		List<Category> allCats = rest.getCategories();
 		
 		String result = null;
 		for(Category cat : allCats){
@@ -58,13 +62,13 @@ public class RetosAppShould {
 	
 	@Test
 	public void allowInsertToCategory_test(){
-		int before = MongoUtils.getCollection(Category.TABLENAME).find().size();
+		long before = MongoUtils.getCollectionCount(Category.TABLENAME);
 		
 		Category cat = new Category("blue");
 		cat.setName(VERY_UNIQUE_NAME);
 		rest.postCategory(cat);
 		
-		int after = MongoUtils.getCollection(Category.TABLENAME).find().size();
+		long after = MongoUtils.getCollectionCount(Category.TABLENAME);
 		
 		assertTrue(before+1 == after);
 	}
@@ -74,7 +78,6 @@ public class RetosAppShould {
 		Category cat = new Category("blue");
 		cat.setName(VERY_UNIQUE_NAME);
 		String id = MongoUtils.insertCategory(cat, true);
-		cat.setId(id);
 		
 		cat.setColor("red");
 		String result = MongoUtils.updateCategory(cat);

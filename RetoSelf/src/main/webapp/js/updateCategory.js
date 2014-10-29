@@ -5,7 +5,8 @@ $(document).ready(function(){
 		var resdiv = document.getElementById("resultDiv");
 		var name = document.getElementById('categoryname');
 		var color = document.getElementById('categorycolor');
-		var category = {id: savedId, name: name.value, color: color.value};
+
+		var category = {id : savedId, name : name.value, color : color.value};
 
 		$.ajax({
 	        url: "rest/retosresthome/updatecategory",

@@ -33,9 +33,4 @@ public class CategoryShould {
 	public void haveName_test(){
 		assertNotNull(cat.getName());
 	}
-	
-	@Test
-	public void haveId_test(){
-		assertNotNull(cat.getId());
-	}
 }

@@ -1,39 +1,36 @@
 package com.lago.retoself.utils;
 
 import java.net.UnknownHostException;
-import java.util.ArrayList;
+import java.util.List;
 
 import org.bson.types.ObjectId;
+import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.Morphia;
+import org.mongodb.morphia.query.Query;
 
 import com.lago.retoself.domain.Category;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
-import com.mongodb.MongoException;
 
 public class MongoUtils {
 
-	private static DB db;
+	private static Datastore ds;
 	private static DBCollection coll;
+	private static final String COLL_DB_NAME = "lagoretos";
 	
 	public static void connectToMongo() throws UnknownHostException{
-		if(db == null){
+		if(ds == null){
 			MongoClient mongoClient = new MongoClient( "localhost" , 27017 );
-			db = mongoClient.getDB("lagoretos");
+			Morphia morphia = new Morphia();
+			morphia.map(Category.class);
+			
+			ds = morphia.createDatastore(mongoClient, COLL_DB_NAME);
 		}
 	}
-	
-	public static void setCollection(String collection){
-		coll = db.getCollection(collection);
-	}
-	
-	public static DBCollection getCollection(String collection){
-		coll = db.getCollection(collection);
-		return coll;
+
+	public static long getCollectionCount(String tableName){
+		return ds.getCount(Category.class);
 	}
 	
 	public static DBCursor getAll(){
@@ -45,25 +42,8 @@ public class MongoUtils {
 	 * @return
 	 * @throws UnknownHostException
 	 */
-	public static ArrayList<Category> getAllCategories() {
-		ArrayList<Category> categories = new ArrayList<Category>();
-		
-		MongoUtils.setCollection("category");
-		DBCollection categoryColl = MongoUtils.getCollection(Category.TABLENAME);
-		DBCursor cursor = categoryColl.find();
-		try{
-			while(cursor.hasNext()) {
-				DBObject obj = cursor.next();
-				Category objRet = new Category();
-				objRet.setColor((String)obj.get("color"));
-				objRet.setId(((ObjectId)obj.get("_id")).toString());
-				objRet.setName((String)obj.get("name"));
-				categories.add(objRet);
-			}
-		}finally{
-			cursor.close();
-		}
-		return categories;
+	public static List<Category> getAllCategories() {
+		return ds.find(Category.class).asList();
 	}
 
 	/**
@@ -72,19 +52,9 @@ public class MongoUtils {
 	 * @return
 	 */
 	public static String insertCategory(Category cat) {
-		MongoUtils.setCollection(Category.TABLENAME);
-		DBCollection coll = MongoUtils.getCollection(Category.TABLENAME);
-		
-		BasicDBObject category = new BasicDBObject("name",cat.getName());
-		category.append("color", cat.getColor());
-		try{
-			coll.insert(category);
-			ObjectId objId = (ObjectId)category.get( "_id" );
-			if(objId!=null){
-				return "SUCCESS";
-			}
-		}catch(MongoException moe){
-			return moe.getMessage();
+		ds.save(cat);
+		if(cat.getId()!=null && cat.getId().length()>0){
+			return "SUCCESS";
 		}
 		return null;
 	}
@@ -100,21 +70,8 @@ public class MongoUtils {
 			return insertCategory(cat);
 		}
 		
-		MongoUtils.setCollection(Category.TABLENAME);
-		DBCollection coll = MongoUtils.getCollection(Category.TABLENAME);
-		
-		BasicDBObject category = new BasicDBObject("name",cat.getName());
-		category.append("color", cat.getColor());
-		try{
-			coll.insert(category);
-			ObjectId objId = (ObjectId)category.get( "_id" );
-			if(objId!=null){
-				return objId.toString(); //return the ID.
-			}
-		}catch(MongoException moe){
-			return moe.getMessage();
-		}
-		return null;
+		insertCategory(cat);
+		return cat.getId().toString();
 	}
 
 	/**
@@ -123,20 +80,12 @@ public class MongoUtils {
 	 * @return
 	 */
 	public static String updateCategory(Category cat) {
-		DBCollection coll = MongoUtils.getCollection(Category.TABLENAME);
-		BasicDBObject category = new BasicDBObject("_id", new ObjectId(cat.getId()));
-		category.append("name",cat.getName());
-		category.append("color", cat.getColor());
-		try{
-			coll.save(category);
-			ObjectId objId = (ObjectId)category.get( "_id" );
-			if(objId!=null && objId.toString().equals(cat.getId())){
-				return "SUCCESS";
-			}
-		}catch(MongoException moe){
-			return moe.getMessage();
+		Query<Category> catToUpdate = ds.find(Category.class, "_id", new ObjectId(cat.getId()));
+		Category updatedCat = ds.findAndModify(catToUpdate, ds.createUpdateOperations(Category.class).set("color",cat.getColor()).set("name", cat.getName()));
+		if(updatedCat.getId().toString().equals(cat.getId())){
+			return "SUCCESS";
 		}
-		return null;
+		return "Failed to update";
 	}
 	
 	/**
@@ -145,14 +94,13 @@ public class MongoUtils {
 	 * @return
 	 */
 	public static String deleteCategory(Category cat) {
-		MongoUtils.setCollection(Category.TABLENAME);
-		DBCollection coll = MongoUtils.getCollection(Category.TABLENAME);
-		try{
-			coll.remove(new BasicDBObject("_id", new ObjectId(cat.getId())));
+		Query<Category> catToDEL = ds.find(Category.class, "_id", new ObjectId(cat.getId()));
+		
+		int deletedCnt = ds.delete(catToDEL).getN(); 
+		if(deletedCnt == 1){
 			return "SUCCESS";
-		}catch(MongoException moe){
-			return moe.getMessage();
 		}
+		else return "Failed to delete";
 	}
 
 	/**
@@ -161,23 +109,7 @@ public class MongoUtils {
 	 * @return
 	 */
 	public static Category getSingleCategory(String id) {
-		DBCollection categoryColl = MongoUtils.getCollection(Category.TABLENAME);
-		BasicDBObject query = new BasicDBObject("_id", new ObjectId(id));
-		DBCursor cursor = categoryColl.find(query);
-		Category categoryToReturn = null;
-		try{
-			if(cursor.size() == 1) {
-				DBObject obj = cursor.next();
-				categoryToReturn = new Category();
-				categoryToReturn.setColor((String)obj.get("color"));
-				categoryToReturn.setId(((ObjectId)obj.get("_id")).toString());
-				categoryToReturn.setName((String)obj.get("name"));
-			}else{
-			}
-		}finally{
-			cursor.close();
-		}
-		return categoryToReturn;
+		return ds.get(Category.class, new ObjectId(id));
 	}
 	
 }

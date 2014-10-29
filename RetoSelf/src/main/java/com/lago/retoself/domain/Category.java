@@ -3,17 +3,13 @@ package com.lago.retoself.domain;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.mongodb.morphia.annotations.Entity;
-import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Id;
-import org.mongodb.morphia.annotations.Property;
 
-@Entity
+@Entity("category")
 @XmlRootElement
 public class Category {
-
-	/**
-	 * 
-	 */
+	
+	@SuppressWarnings("unused")
 	private static final long serialVersionUID = 1L;
 
 	public static final String TABLENAME = "category";
@@ -24,7 +20,6 @@ public class Category {
 	private String color;
 	
 	public Category() {
-		this.id = "someID";
 		this.color = "someColor";
 		this.name = "someName";
 	}
@@ -56,5 +51,5 @@ public class Category {
 
 	public void setId(String id) {
 		this.id = id;
-	}	
+	}
 }
