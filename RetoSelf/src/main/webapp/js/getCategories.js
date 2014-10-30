@@ -10,9 +10,8 @@ $(window).load(function() {
  					var cat = categories[i];
  					
     				$('.categoriesResult').append("<tr>");
-					$('.categoriesResult').append("<td align='center'>" + cat.name + "</td>");
+					$('.categoriesResult').append("<td align='center'><a href='viewcategory.html?id=" + cat.id + "'>" + cat.name + "</a></td>");
 					$('.categoriesResult').append("<td align='center'><a href='viewcategory.html?id=" + cat.id + "'><canvas id=" + cat.id + " width='200' height='100'></canvas></a></td>");
-					$('.categoriesResult').append("<td><h2>></h2></td>");
     				$('.categoriesResult').append("</tr>");
 				}
 				paintCanvas(categories);

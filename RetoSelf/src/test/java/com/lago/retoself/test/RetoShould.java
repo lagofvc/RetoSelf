@@ -27,4 +27,14 @@ public class RetoShould {
 	public void haveType_test(){
 		assertNotNull(reto.getType());
 	}
+
+    @Test
+    public void haveName_test(){
+        assertNotNull(reto.getName());
+    }
+
+    @Test
+    public void notYetBeMet_test(){
+        assertFalse(reto.getHasBeenMet());
+    }
 }

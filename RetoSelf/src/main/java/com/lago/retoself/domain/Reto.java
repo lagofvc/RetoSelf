@@ -8,25 +8,33 @@ import org.mongodb.morphia.annotations.Id;
 @Entity("reto")
 @XmlRootElement
 public class Reto {
-	
+
+    public enum RetoType {
+        SIMPLE_DO,
+        DO_X_BY,
+        STOP_HABIT,
+        START_HABIT,
+        DO_X_BY_LAPSE
+    }//end enum
+
 	@SuppressWarnings("unused")
 	private static final long serialVersionUID = 1L;
 	public static final String TABLENAME = "reto";
 	
 	@Id
 	private String id;
+    private String name;
+    private String description;
+    private Boolean hasBeenMet;
 	private RetoType type;
-	public enum RetoType {
-		DO_X_BY, 
-		STOP_HABIT, 
-		START_HABIT, 
-		DO_X_BY_LAPSE 
-	}//end enum
 	
 	public Reto(){
-		type = Reto.RetoType.DO_X_BY;
+		setType(RetoType.SIMPLE_DO);
+        name = "some name";
+        hasBeenMet = false;
 	}
-	
+
+    //getters and setters
 	public RetoType getType() {
 		return type;
 	}
@@ -42,4 +50,28 @@ public class Reto {
 	public void setId(String id) {
 		this.id = id;
 	}
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Boolean getHasBeenMet() {
+        return hasBeenMet;
+    }
+
+    public void setHasBeenMet(Boolean hasBeenMet) {
+        this.hasBeenMet = hasBeenMet;
+    }
 }
