@@ -23,13 +23,13 @@ public class RetosAppShould {
 	@Before
 	public void setup() throws UnknownHostException{
 		rest = new RetosRestHome(); // this sets the connection to MongoDB
-		COUNT_BEFORE = MongoUtils.getCollectionCount(Category.TABLENAME);
+		COUNT_BEFORE = MongoUtils.getCollectionCount();
 		
 	}
 	
 	@After
 	public void tearDown() throws UnknownHostException{
-		COUNT_AFTER = MongoUtils.getCollectionCount(Category.TABLENAME);
+		COUNT_AFTER = MongoUtils.getCollectionCount();
 		if(COUNT_BEFORE < COUNT_AFTER){
 			List<Category> allCats = rest.getCategories();
 			for(Category cat : allCats){
@@ -62,13 +62,13 @@ public class RetosAppShould {
 	
 	@Test
 	public void allowInsertToCategory_test(){
-		long before = MongoUtils.getCollectionCount(Category.TABLENAME);
+		long before = MongoUtils.getCollectionCount();
 		
 		Category cat = new Category("blue");
 		cat.setName(VERY_UNIQUE_NAME);
 		rest.postCategory(cat);
 		
-		long after = MongoUtils.getCollectionCount(Category.TABLENAME);
+		long after = MongoUtils.getCollectionCount();
 		
 		assertTrue(before+1 == after);
 	}

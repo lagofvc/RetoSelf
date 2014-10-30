@@ -9,14 +9,11 @@ import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.query.Query;
 
 import com.lago.retoself.domain.Category;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
 import com.mongodb.MongoClient;
 
 public class MongoUtils {
 
 	private static Datastore ds;
-	private static DBCollection coll;
 	private static final String COLL_DB_NAME = "lagoretos";
 	
 	public static void connectToMongo() throws UnknownHostException{
@@ -29,12 +26,8 @@ public class MongoUtils {
 		}
 	}
 
-	public static long getCollectionCount(String tableName){
+	public static long getCollectionCount(){
 		return ds.getCount(Category.class);
-	}
-	
-	public static DBCursor getAll(){
-		return coll.find();
 	}
 	
 	/**
@@ -71,7 +64,7 @@ public class MongoUtils {
 		}
 		
 		insertCategory(cat);
-		return cat.getId().toString();
+		return cat.getId();
 	}
 
 	/**

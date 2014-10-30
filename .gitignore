@@ -4,4 +4,7 @@
 .factorypath
 .project
 .DS_Store
+.idea
+*.iml
+*/**/*.iml
 
