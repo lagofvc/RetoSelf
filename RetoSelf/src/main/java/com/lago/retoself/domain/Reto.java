@@ -25,13 +25,12 @@ public class Reto {
 	private String id;
     private String name;
     private String description;
-    private Boolean hasBeenMet;
+    private Boolean hasBeenMet = false;
 	private RetoType type;
 	
 	public Reto(){
 		setType(RetoType.SIMPLE_DO);
         name = "some name";
-        hasBeenMet = false;
 	}
 
     //getters and setters
