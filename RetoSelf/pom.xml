@@ -12,7 +12,7 @@
     <name>RetoSelf - Retos a uno mismo.</name>
     <url>RetoSelf</url>
     <description>A java 7, MongoDB, Morphia, Jackson, JQuery, JSON, HTML5 project for self accountability.
-    			 Categories are created and color coded to create, keep track and report on challenges to self.   
+    			 Categories are created and color coded to create, keep track and report on challenges to self.
     </description>
 
     <properties>
