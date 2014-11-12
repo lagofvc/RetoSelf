@@ -2,19 +2,17 @@ $(window).load(function() {
 	var resdiv = document.getElementById("resultDiv");
 
 	$.ajax({
-	        url: "rest/retosresthome/getcategories",
+	        url: "rest/retosresthome/getchallenges",
 	        type: "GET",
     		dataType:"json",
-	        success: function(categories) {
-	        	for(var i = 0; i < categories.length; i++) {
- 					var cat = categories[i];
+	        success: function(challenges) {
+	        	for(var i = 0; i < challenges.length; i++) {
+ 					var challenge = challenges[i];
  					
-    				$('.categoriesResult').append("<tr>");
-					$('.categoriesResult').append("<td align='center'><a href='viewcategory.html?id=" + cat.id + "'>" + cat.name + "</a></td>");
-					$('.categoriesResult').append("<td align='center'><a href='challenges.html?id=" + cat.id + "'><canvas id=" + cat.id + " width='200' height='100'></canvas></a></td>");
-    				$('.categoriesResult').append("</tr>");
+    				$('.challengesResult').append("<tr>");
+					$('.challengesResult').append("<td align='center'><a href='viewchallenge.html?id=" + challenge.id + "'>" + challenge.name + "</a></td>");
+    				$('.challengesResult').append("</tr>");
 				}
-				paintCanvas(categories);
 	        },
 	        error: function (xhr, ajaxOptions, thrownError) {
 	        	resdiv.innerHTML="<font color='red'>Failed to get server data.</font>";
