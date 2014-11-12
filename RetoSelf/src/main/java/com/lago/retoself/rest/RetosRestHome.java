@@ -1,18 +1,13 @@
 package com.lago.retoself.rest;
 
+import com.lago.retoself.domain.Category;
+import com.lago.retoself.domain.Challenge;
+import com.lago.retoself.utils.MongoUtils;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import java.net.UnknownHostException;
 import java.util.List;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
-import com.lago.retoself.domain.Category;
-import com.lago.retoself.utils.MongoUtils;
 
 @Path("/retosresthome")
 public class RetosRestHome {
@@ -24,7 +19,9 @@ public class RetosRestHome {
 			e.printStackTrace();
 		}
 	}
-	
+
+    /********* CATEGORY REST ********/
+
 	@GET
 	@Path("/getcategories")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -42,19 +39,19 @@ public class RetosRestHome {
 	}
 	
 	@POST
-	@Path("/postcategory")
+	@Path("/addcategory")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String postCategory(Category cat){
-		return MongoUtils.insertCategory(cat);
+	public String addCategory(Category cat){
+		return MongoUtils.insert(cat);
 	}
 
 	@POST
 	@Path("/updatecategory")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String updateCategory(Category cat){
-		return MongoUtils.updateCategory(cat);
+	public String update(Category cat){
+		return MongoUtils.update(cat);
 	}
 	
 	@DELETE
@@ -62,6 +59,32 @@ public class RetosRestHome {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	public String delete(Category cat) {
-		return MongoUtils.deleteCategory(cat);
+		return MongoUtils.delete(cat);
 	}
+
+    /********* CHALLENGE REST ********/
+
+    @GET
+    @Path("/getchallenges")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Challenge> getChallenges() {
+        List<Challenge> challs = MongoUtils.getAllChallenges();
+        return challs;
+    }
+
+    @POST
+    @Path("/addchallenge")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
+    public String addChallenge(Challenge chall){
+        return MongoUtils.insert(chall);
+    }
+
+    @DELETE
+    @Path("/deletechallenge")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
+    public String delete(Challenge chall) {
+        return MongoUtils.delete(chall);
+    }
 }

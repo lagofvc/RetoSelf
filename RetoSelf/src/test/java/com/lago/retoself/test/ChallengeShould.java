@@ -35,6 +35,6 @@ public class ChallengeShould {
 
     @Test
     public void notYetBeMet_test(){
-        assertFalse(challenge.getHasBeenMet());
+        assertFalse(challenge.getCompleted());
     }
 }

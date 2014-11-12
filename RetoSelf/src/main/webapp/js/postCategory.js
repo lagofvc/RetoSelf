@@ -7,7 +7,7 @@ $(document).ready(function(){
 		var category = {name: name.value, color: color.value};
 
 		$.ajax({
-	        url: "rest/retosresthome/postcategory",
+	        url: "rest/retosresthome/addcategory",
 	        type: "POST",
 	        data: JSON.stringify(category),
     		contentType:"application/json",

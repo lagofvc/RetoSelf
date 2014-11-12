@@ -1,15 +1,14 @@
 package com.lago.retoself.domain;
 
 import org.mongodb.morphia.annotations.Entity;
-import org.mongodb.morphia.annotations.Id;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity("reto")
 @XmlRootElement
-public class Challenge {
+public class Challenge extends DomO{
 
-    public enum RetoType {
+    public enum ChallengeType {
         SIMPLE_DO,
         DO_X_BY,
         STOP_HABIT,
@@ -20,43 +19,25 @@ public class Challenge {
 	@SuppressWarnings("unused")
 	private static final long serialVersionUID = 1L;
 	public static final String TABLENAME = "reto";
-	
-	@Id
-	private String id;
-    private String name;
+
+    private String categoryId;
     private String description;
-    private Boolean hasBeenMet = false;
-	private RetoType type;
+    private Boolean completed = false;
+	private ChallengeType type;
 	
 	public Challenge(){
-		setType(RetoType.SIMPLE_DO);
-        name = "some name";
+        super.setName("some challenge name");
+		setType(ChallengeType.SIMPLE_DO);
 	}
 
     //getters and setters
-	public RetoType getType() {
+	public ChallengeType getType() {
 		return type;
 	}
 
-	public void setType(RetoType type) {
+	public void setType(ChallengeType type) {
 		this.type = type;
 	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getDescription() {
         return description;
@@ -66,11 +47,24 @@ public class Challenge {
         this.description = description;
     }
 
-    public Boolean getHasBeenMet() {
-        return hasBeenMet;
+    public Boolean getCompleted() {
+        return completed;
     }
 
-    public void setHasBeenMet(Boolean hasBeenMet) {
-        this.hasBeenMet = hasBeenMet;
+    public void setCompleted(Boolean completed) {
+        this.completed = completed;
+    }
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryid) {
+        this.categoryId = categoryid;
+    }
+
+    @Override
+    public Class getClassForTableName() {
+        return Challenge.class;
     }
 }
