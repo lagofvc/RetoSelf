@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+	<title>Lago : RetoSelf</title>
+	
+	<link rel="stylesheet" type="text/css" href="css/main.css?version=2">
+	
+	<!-- ADD REST SUPPORT VIA google APIs -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	
+	<!-- ADD MY OWN JQuery to call the REST webservice and getback json, html, text, etc..-->  
+    <script src="js/getChallenge.js"></script>
+        
+</head>
+<body>
+	<br/>
+	<element>
+	<center>
+		<div class="transbox" valign="top">
+		<center>
+		<h1>&nbsp;Retos</h1>
+		<div id="resultDiv"></div>
+			<table>
+				<tr>
+					<td>Leave To Work @ 9AM</td>
+					<td>I promise to leave my house and go to work every M-F before 9AM for 1 week.</td>
+				</tr>
+				<tr>
+				<td><td><canvas id="canvas1" width=800 height=800></td></td>
+				</tr>
+				<tfoot>
+					<tr>
+						<td/>
+						<td align="center">
+							<form action="onsubmit:alert('yo challenge!');">
+							<button>Accept Challenge</button>
+							</form>
+						</td>
+						<td/>
+					</tr>
+				</tfoot>
+				<tbody class="ChallengeResult">
+				</tbody>
+			</table>
+			</center>
+		</div>
+	</center>
+	</element>
+</body>
+</html>
