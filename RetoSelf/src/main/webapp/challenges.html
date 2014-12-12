@@ -9,9 +9,9 @@
 	<!-- ADD REST SUPPORT VIA google APIs -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	
-	<!-- ADD MY OWN JQuery to call the REST webservice and getback json, html, text, etc..-->  
+	<!-- ADD MY OWN JQuery to call the REST webservice and getback json, html, text, etc..-->
     <script src="js/getChallenges.js"></script>
-        
+
 </head>
 <body>
 	<br/>
@@ -19,29 +19,21 @@
 	<center>
 		<div class="transbox" valign="top">
 		<center>
-		<h1>&nbsp;Retos</h1>
+        <div id="retoTitleDiv"></div>
 		<div id="resultDiv"></div>
 			<table>
-				<tr>
-					<td>Leave To Work @ 9AM</td>
-					<td>I promise to leave my house and go to work every M-F before 9AM for 1 week.</td>
-				</tr>
-				<tr>
-				<td><td><canvas id="canvas1" width=800 height=800></canvas></td></td>
-				</tr>
+                <tbody class="challengesResult">
+                </tbody>
 				<tfoot>
 					<tr>
-						<td/>
+                        <td/>
 						<td align="center">
-                            <form action="addchallenge.html"/>
-							<button>Add Challenge</button>
+                            <form action="addchallenge.html">
+						    	<button>Add Challenge</button>
 							</form>
 						</td>
-						<td/>
 					</tr>
 				</tfoot>
-				<tbody class="challengesResult">
-				</tbody>
 			</table>
 			</center>
 		</div>

@@ -1,12 +1,11 @@
 package com.lago.retoself.test;
 
-import static org.junit.Assert.*;
-
+import com.lago.retoself.domain.Category;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.lago.retoself.domain.Category;
+import static org.junit.Assert.*;
 
 
 public class CategoryShould {

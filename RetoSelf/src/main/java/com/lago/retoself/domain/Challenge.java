@@ -8,19 +8,30 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Challenge extends DomO{
 
+
+
     public enum ChallengeType {
         SIMPLE_DO,
+        SIMPLE_DO_SERIES,
         DO_X_BY,
         STOP_HABIT,
         START_HABIT,
-        DO_X_BY_LAPSE
+        DO_X_BY_LAPSE;
+
+        public static String getTypes() {
+           StringBuilder sb = new StringBuilder();
+            int i=0;
+            for(ChallengeType ct : ChallengeType.values()){
+                sb.append(ct.name()+",");
+            }
+            return sb.toString();
+        }
     }//end enum
 
-	@SuppressWarnings("unused")
 	private static final long serialVersionUID = 1L;
 	public static final String TABLENAME = "reto";
 
-    private String categoryId;
+    private String categoryid;
     private String description;
     private Boolean completed = false;
 	private ChallengeType type;
@@ -56,11 +67,11 @@ public class Challenge extends DomO{
     }
 
     public String getCategoryId() {
-        return categoryId;
+        return categoryid;
     }
 
     public void setCategoryId(String categoryid) {
-        this.categoryId = categoryid;
+        this.categoryid = categoryid;
     }
 
     @Override

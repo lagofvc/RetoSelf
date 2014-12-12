@@ -12,6 +12,7 @@ import java.net.UnknownHostException;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class ChallengeAppShould {
@@ -45,7 +46,7 @@ public class ChallengeAppShould {
 
         CHALLENGE_COUNT_AFTER = MongoUtils.getCollectionCount(Challenge.class);
         if(CHALLENGE_COUNT_BEFORE < CHALLENGE_COUNT_AFTER){
-            List<Challenge> allChalls = rest.getChallenges();
+            List<Challenge> allChalls = MongoUtils.getAllChallenges();
             for(Challenge chall : allChalls){
                 if(chall.getName().equals(VERY_UNIQUE_NAME)){
                     rest.delete(chall);
@@ -139,7 +140,7 @@ public class ChallengeAppShould {
         challenge.setCompleted(true);
         rest.addChallenge(challenge);
 
-        List<Challenge> allChallenges = rest.getChallenges();
+        List<Challenge> allChallenges = MongoUtils.getAllChallenges();
 
         String result = null;
         for(Challenge chall : allChallenges){
@@ -166,4 +167,8 @@ public class ChallengeAppShould {
         assertEquals(updatedChall.getCategoryId(), VERY_UNIQUE_NAME);
     }
 
+    @Test
+    public void shouldReturnAListOfChallengeTypes_test(){
+        assertNotNull(rest.getChallengeTypes());
+    }
 }

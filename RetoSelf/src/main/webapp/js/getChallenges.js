@@ -1,10 +1,37 @@
+var catname="";
+var catcolor="";
+var catid="";
+
 $(window).load(function() {
-	var resdiv = document.getElementById("resultDiv");
+    var resdiv = document.getElementById("resultDiv");
+    var titlediv = document.getElementById("retoTitleDiv");
+    var query = window.location.search.substring(1);
+    var variables = query.split("&");
+    var id = variables[0].split("=")[1];
+
+    $.ajax({
+        url: "rest/retosresthome/getsinglecategory",
+        type: "POST",
+        contentType:"text/plain",
+        dataType:"json",
+        data: id,
+        success: function(category) {
+            catname = category.name;
+            catcolor = category.color;
+            catid = category.id;
+            titlediv.innerHTML="<h1>&nbsp;Retos : " + catname + "</h1>";
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            resdiv.innerHTML="<font color='red'>Failed to get server data.</font>";
+        }
+    });
 
 	$.ajax({
 	        url: "rest/retosresthome/getchallenges",
-	        type: "GET",
-    		dataType:"json",
+	        type: "POST",
+	        contentType: "text/plain",
+    		dataType: "json",
+    		data: id,
 	        success: function(challenges) {
 	        	for(var i = 0; i < challenges.length; i++) {
  					var challenge = challenges[i];
@@ -19,6 +46,7 @@ $(window).load(function() {
             }
 		});
 });
+
 
 function paintCanvas (categories) {
 	for(var i = 0; i < categories.length; i++) {

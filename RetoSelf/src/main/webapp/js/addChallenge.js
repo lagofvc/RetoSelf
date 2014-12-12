@@ -1,18 +1,34 @@
+$(window).load(function() {
+	var resdiv = document.getElementById("resultDiv");
+
+	$.ajax({
+	        url: "rest/retosresthome/getchallengetypes",
+	        type: "GET",
+    		dataType:"text",
+	        success: function(allTypes) {
+	            var types = allTypes.split(",");
+	        	for(var i = 0; i < types.length; i++) {
+ 					var type = types[i];
+    				$('.challengetypes').append("<option value=" + type + ">" + type + "</option>");
+	            }
+            },
+	        error: function (xhr, ajaxOptions, thrownError) {
+	        	resdiv.innerHTML="<font color='red'>Failed to get server data.</font>";
+            }
+		});
+});
+
 $(document).ready(function(){
 
 	$('#addChallengeButton').click(function(){
 		var resdiv = document.getElementById("resultDiv");
 
-//        var type = document.getElementById('type');
+//      var type = document.getElementById('type');
 		var name = document.getElementById('name');
 //		var catid = document.getElementById('categoryid');
 //		var desc = document.getElementById('description');
-		var completed = document.getElementById('completed');
-
-        alert(completed.checked + " jajajaj!!!!!");
-
 //		var challenge = {type: type.value, name: name.value, categoryid: catid.value, description: desc.value, completed: completed.value};
-		var challenge = {name: name.value, completed: completed.checked};
+		var challenge = {name: name.value, completed: false};
 
 		$.ajax({
 	        url: "rest/retosresthome/addchallenge",

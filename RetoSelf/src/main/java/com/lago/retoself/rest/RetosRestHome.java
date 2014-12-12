@@ -64,11 +64,12 @@ public class RetosRestHome {
 
     /********* CHALLENGE REST ********/
 
-    @GET
+    @POST
     @Path("/getchallenges")
+    @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Challenge> getChallenges() {
-        List<Challenge> challs = MongoUtils.getAllChallenges();
+    public List<Challenge> getChallenges(String id) {
+        List<Challenge> challs = MongoUtils.getAllChallengesForCategory(id);
         return challs;
     }
 
@@ -86,5 +87,12 @@ public class RetosRestHome {
     @Produces(MediaType.TEXT_PLAIN)
     public String delete(Challenge chall) {
         return MongoUtils.delete(chall);
+    }
+
+    @GET
+    @Path("/getchallengetypes")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String getChallengeTypes() {
+        return Challenge.ChallengeType.getTypes();
     }
 }

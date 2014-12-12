@@ -124,7 +124,7 @@ public class MongoUtils {
 
     private static void setOtherFieldsIfSetOrUpdated(UpdateOperations<Challenge> updateOps, Challenge challenge) {
         if(challenge.getCategoryId() != null && !challenge.getCategoryId().isEmpty()){
-            updateOps.set("categoryId", challenge.getCategoryId());
+            updateOps.set("categoryid", challenge.getCategoryId());
         }
 
         if(challenge.getDescription() != null && !challenge.getDescription().isEmpty()){
@@ -157,8 +157,22 @@ public class MongoUtils {
 		return ds.get(Category.class, new ObjectId(id));
 	}
 
+    /**
+     * GET all challenges for all categories
+     * @return
+     */
     public static List<Challenge> getAllChallenges() {
         return ds.find(Challenge.class).asList();
+    }
+
+    /**
+     * Get all challenges for a single category by categoryId
+     * @param id
+     * @return
+     */
+    public static List<Challenge> getAllChallengesForCategory(String id) {
+        Query<Challenge> categoryChallenges = ds.find(Challenge.class, "categoryid", id);
+        return categoryChallenges.asList();
     }
 
     public static Challenge getSingleChallenge(String id) {
