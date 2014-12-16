@@ -17,17 +17,27 @@
 	<br/>
 	<element>
 	<center>
-		<div class="transbox" valign="top">
+		<div id="transbox" class="transbox" valign="top">
 		<center>
         <div id="retoTitleDiv"></div>
 		<div id="resultDiv"></div>
 			<table>
+                <thead>
+                    <tr>
+                        <th align="left">challenge</th>
+                        <th align="right">completed</th>
+                    </tr>
+                </thead>
                 <tbody class="challengesResult">
                 </tbody>
 				<tfoot>
 					<tr>
-                        <td/>
-						<td align="center">
+                        <td align="left">
+                            <form action="index.html">
+                                <button>Back</button>
+                            </form>
+                        </td>
+						<td align="right">
                             <form action="addchallenge.html">
 						    	<button>Add Challenge</button>
 							</form>

@@ -5,6 +5,8 @@ var catid="";
 $(window).load(function() {
     var resdiv = document.getElementById("resultDiv");
     var titlediv = document.getElementById("retoTitleDiv");
+    var transboxdiv = document.getElementById("transbox");
+
     var query = window.location.search.substring(1);
     var variables = query.split("&");
     var id = variables[0].split("=")[1];
@@ -20,6 +22,8 @@ $(window).load(function() {
             catcolor = category.color;
             catid = category.id;
             titlediv.innerHTML="<h1>&nbsp;Retos : " + catname + "</h1>";
+            //setdivcolor(transboxdiv);
+
         },
         error: function (xhr, ajaxOptions, thrownError) {
             resdiv.innerHTML="<font color='red'>Failed to get server data.</font>";
@@ -35,9 +39,14 @@ $(window).load(function() {
 	        success: function(challenges) {
 	        	for(var i = 0; i < challenges.length; i++) {
  					var challenge = challenges[i];
+ 					var challengecompleted = "";
+ 					if(challenge.completed){
+ 					    challengecompleted = "checked";
+ 					}
  					
     				$('.challengesResult').append("<tr>");
-					$('.challengesResult').append("<td align='center'><a href='viewchallenge.html?id=" + challenge.id + "'>" + challenge.name + "</a></td>");
+					$('.challengesResult').append("<td><a href='viewchallenge.html?id=" + challenge.id + "'>" + challenge.name + "</a></td>");
+					$('.challengesResult').append("<td><input id='completed' type='checkbox'" + challengecompleted + "/></td>");
     				$('.challengesResult').append("</tr>");
 				}
 	        },
@@ -47,6 +56,10 @@ $(window).load(function() {
 		});
 });
 
+function setdivcolor(elem){
+    elem.style.backgroundColor = catcolor;
+    elem.style.opacity= 0.5;
+}
 
 function paintCanvas (categories) {
 	for(var i = 0; i < categories.length; i++) {
